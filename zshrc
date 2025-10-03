@@ -1,0 +1,47 @@
+# Autostart X at login
+if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
+  exec startx
+fi
+
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=500
+setopt beep extendedglob
+
+# Functions & Binds: Copy & Paste 
+
+cmd_to_clip () { wl-copy -n <<< $BUFFER }
+zle -N cmd_to_clip
+bindkey '^T' cmd_to_clip
+
+cmd_to_paste () { wl-paste -n <<< $BUFFER }
+zle -N cmd_to_paste
+bindkey '^Y' cmd_to_paste
+
+# Keybinds
+bindkey -e
+bindkey '^[[1;5C' forward-word		# Ctrl+right arrow jump
+bindkey '^[[1;5D' backward-word		# Ctrl+left arrow jump
+
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/eevee/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+#
+# [[ $- != *i* ]] && return
+
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.zplug/init.zsh
+source ~/.local/share/zsh/plugins/zsh-shift-select/zsh-shift-select.plugin.zsh
+
+#Zplugs
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-history-substring-search", as:plugin
+zplug "agkozak/zsh-z"
+zplug "kutsan/zsh-system-clipboard"
+
+eval "$(starship init zsh)"
